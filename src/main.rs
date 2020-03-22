@@ -1,6 +1,11 @@
 // 00124b00188a7f6810
 
-fn generate_code(code: &str) -> Option<String> {
+fn generate_code(seed: Option<&str>) -> Option<String> {
+    let code: &str = match seed {
+        Some(it) => it,
+        None => "0011001100110011",
+    };
+
     if code.len() != 16 {
         return None;
     }
@@ -31,17 +36,18 @@ fn generate_code(code: &str) -> Option<String> {
     characters_as_hex.push(first_digit);
     characters_as_hex.push(second_digit);
 
-    println!("{:?}", second_digit_sequence);
-    println!("{}", first_digit);
-    println!("{}", second_digit);
-
     Some(format!("{}{}{}", code, first_digit, second_digit))
 }
 
 fn main() {
-    let seed = "00124b00188a7f68";
-
+    let seed = Some("00124b00188a7f68");
     if let Some(code) = generate_code(seed) {
+        println!("{}", code)
+    } else {
+        println!("Could not generate code")
+    }
+
+    if let Some(code) = generate_code(None) {
         println!("{}", code)
     } else {
         println!("Could not generate code")
