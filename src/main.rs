@@ -1,5 +1,3 @@
-// 00124b00188a7f6810
-
 fn generate_code(seed: Option<&str>) -> Option<String> {
     let code: &str = match seed {
         Some(it) => it,
