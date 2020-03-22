@@ -51,3 +51,32 @@ fn main() {
         println!("Could not generate code")
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::generate_code;
+
+    #[test]
+    fn test_seed_valid() {
+        assert_eq!(
+            generate_code(Some("00124b00188a7f68")).as_deref(),
+            Some("00124b00188a7f6810").as_deref()
+        );
+    }
+
+    #[test]
+    fn test_seed_too_short() {
+        assert_eq!(generate_code(Some("00124b00188a7f6")).as_deref(), None);
+    }
+
+    #[test]
+    fn test_seed_too_long() {
+        assert_eq!(generate_code(Some("00124b00188a7f689")).as_deref(), None);
+    }
+
+    #[test]
+    fn test_no_seed() {
+        assert_ne!(generate_code(None).as_deref(), None);
+    }
+}
