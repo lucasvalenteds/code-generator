@@ -1,11 +1,6 @@
 use rand::distributions::Distribution;
 use rand::{seq::SliceRandom, thread_rng, Rng};
 
-pub enum CodeType {
-    Type0,
-    Random,
-}
-
 struct Hexadecimal;
 
 impl Distribution<char> for Hexadecimal {
@@ -22,10 +17,10 @@ impl Distribution<char> for Decimal {
     }
 }
 
-fn get_code_type_value(code_type: CodeType) -> String {
+fn get_code_type_value(code_type: Option<&str>) -> String {
     match code_type {
-        CodeType::Type0 => "00".to_string(),
-        CodeType::Random => thread_rng()
+        Some(digits) => digits.to_string(),
+        None => thread_rng()
             .sample_iter(&Decimal)
             .take(2)
             .collect::<String>(),
@@ -39,7 +34,7 @@ fn get_random_code() -> String {
         .collect::<String>()
 }
 
-pub fn generate_code(code_type: CodeType, seed: Option<&str>) -> Option<String> {
+pub fn generate_code(code_type: Option<&str>, seed: Option<&str>) -> Option<String> {
     let code: String = match seed {
         Some(it) => String::from(it),
         None => format!("{}{}", get_code_type_value(code_type), get_random_code()),
@@ -79,7 +74,7 @@ mod tests {
     #[test]
     fn test_seed_valid() {
         assert_eq!(
-            generate_code(CodeType::Type0, Some("00124b00188a7f68")).as_deref(),
+            generate_code(Some("00"), Some("00124b00188a7f68")).as_deref(),
             Some("00124b00188a7f6810").as_deref()
         );
     }
@@ -87,7 +82,7 @@ mod tests {
     #[test]
     fn test_seed_too_short() {
         assert_eq!(
-            generate_code(CodeType::Random, Some("00124b00188a7f6")).as_deref(),
+            generate_code(None, Some("00124b00188a7f6")).as_deref(),
             None
         );
     }
@@ -95,13 +90,13 @@ mod tests {
     #[test]
     fn test_seed_too_long() {
         assert_eq!(
-            generate_code(CodeType::Random, Some("00124b00188a7f689")).as_deref(),
+            generate_code(None, Some("00124b00188a7f689")).as_deref(),
             None
         );
     }
 
     #[test]
     fn test_no_seed() {
-        assert_ne!(generate_code(CodeType::Random, None).as_deref(), None);
+        assert_ne!(generate_code(None, None).as_deref(), None);
     }
 }
