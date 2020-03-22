@@ -1,6 +1,6 @@
 # Code generator
 
-It just generates codes randomly or based on user input (prexix or seed).
+It just generates codes randomly or based on user input (prefix or seed).
 
 ## Examples
 
