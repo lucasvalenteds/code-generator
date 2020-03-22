@@ -1,7 +1,24 @@
+use rand::distributions::Distribution;
+use rand::{seq::SliceRandom, thread_rng, Rng};
+
+struct Hexadecimal;
+
+impl Distribution<char> for Hexadecimal {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> char {
+        *b"0123456789abcdef".choose(rng).unwrap() as char
+    }
+}
+
 pub fn generate_code(seed: Option<&str>) -> Option<String> {
-    let code: &str = match seed {
-        Some(it) => it,
-        None => "0011001100110011",
+    let code: String = match seed {
+        Some(it) => String::from(it),
+        None => format!(
+            "00{}",
+            thread_rng()
+                .sample_iter(&Hexadecimal)
+                .take(14)
+                .collect::<String>()
+        ),
     };
 
     if code.len() != 16 {
@@ -40,7 +57,7 @@ pub fn generate_code(seed: Option<&str>) -> Option<String> {
 #[cfg(test)]
 mod tests {
 
-    use super::generate_code;
+    use super::*;
 
     #[test]
     fn test_seed_valid() {
