@@ -1,6 +1,11 @@
 use rand::distributions::Distribution;
 use rand::{seq::SliceRandom, thread_rng, Rng};
 
+pub enum CodeType {
+    Type0,
+    Random,
+}
+
 struct Hexadecimal;
 
 impl Distribution<char> for Hexadecimal {
@@ -9,16 +14,35 @@ impl Distribution<char> for Hexadecimal {
     }
 }
 
-pub fn generate_code(seed: Option<&str>) -> Option<String> {
+struct Decimal;
+
+impl Distribution<char> for Decimal {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> char {
+        *b"0123456789".choose(rng).unwrap() as char
+    }
+}
+
+fn get_code_type_value(code_type: CodeType) -> String {
+    match code_type {
+        CodeType::Type0 => "00".to_string(),
+        CodeType::Random => thread_rng()
+            .sample_iter(&Decimal)
+            .take(2)
+            .collect::<String>(),
+    }
+}
+
+fn get_random_code() -> String {
+    thread_rng()
+        .sample_iter(&Hexadecimal)
+        .take(14)
+        .collect::<String>()
+}
+
+pub fn generate_code(code_type: CodeType, seed: Option<&str>) -> Option<String> {
     let code: String = match seed {
         Some(it) => String::from(it),
-        None => format!(
-            "00{}",
-            thread_rng()
-                .sample_iter(&Hexadecimal)
-                .take(14)
-                .collect::<String>()
-        ),
+        None => format!("{}{}", get_code_type_value(code_type), get_random_code()),
     };
 
     let digits: Vec<u32> = code
@@ -55,23 +79,29 @@ mod tests {
     #[test]
     fn test_seed_valid() {
         assert_eq!(
-            generate_code(Some("00124b00188a7f68")).as_deref(),
+            generate_code(CodeType::Type0, Some("00124b00188a7f68")).as_deref(),
             Some("00124b00188a7f6810").as_deref()
         );
     }
 
     #[test]
     fn test_seed_too_short() {
-        assert_eq!(generate_code(Some("00124b00188a7f6")).as_deref(), None);
+        assert_eq!(
+            generate_code(CodeType::Random, Some("00124b00188a7f6")).as_deref(),
+            None
+        );
     }
 
     #[test]
     fn test_seed_too_long() {
-        assert_eq!(generate_code(Some("00124b00188a7f689")).as_deref(), None);
+        assert_eq!(
+            generate_code(CodeType::Random, Some("00124b00188a7f689")).as_deref(),
+            None
+        );
     }
 
     #[test]
     fn test_no_seed() {
-        assert_ne!(generate_code(None).as_deref(), None);
+        assert_ne!(generate_code(CodeType::Random, None).as_deref(), None);
     }
 }
