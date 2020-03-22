@@ -1,6 +1,6 @@
 # Code generator
 
-It just generates random codes to be used as you wish. Here's an example of code: `00124b00188a7f68`.
+It just generates random codes to be used as you wish. Here's an example of code: `00124b00188a7f6810`.
 
 ## How to run
 
