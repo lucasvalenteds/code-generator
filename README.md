@@ -1,6 +1,47 @@
 # Code generator
 
-It just generates random codes to be used as you wish. Here's an example of code: `00124b00188a7f6810`.
+It just generates codes randomly or based on user input (prexix or seed).
+
+## Examples
+
+**Random code**
+
+```
+$ ./code-generator
+$ 1285722b5138179844
+
+$ ./code-generator
+$ 74eb32328b2fe37b149
+
+$ ./code-generator
+$ 08df7b5cf5d1dffe119
+```
+
+**Random code with prefix**
+
+```
+$ ./code-generator 03
+$ 03cf7adccfa1bdc350
+ 
+$ ./code-generator 03
+$ 0330fda886e9f6221311
+ 
+$ ./code-generator 03
+$ 036bfeb0dfffeb9b118
+```
+
+**Last two digits for known code**
+
+```
+$ ./code-generator 00124b00188a7f68
+$ 00124b00188a7f6810
+ 
+$ ./code-generator 00124b00188a7f68
+$ 00124b00188a7f6810
+ 
+$ ./code-generator 00124b00188a7f68
+$ 00124b00188a7f6810
+```
 
 ## How to run
 
