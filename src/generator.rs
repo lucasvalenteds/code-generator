@@ -63,7 +63,12 @@ pub fn generate_code(code_type: Option<&str>, seed: Option<&str>) -> Option<Stri
         .map(|(index, digit)| (index as u32) * digit)
         .sum();
 
-    Some(format!("{}{}{}", code, first_digit % 16, second_digit % 16))
+    Some(format!(
+        "{}{:x}{:x}",
+        code,
+        first_digit % 16,
+        second_digit % 16
+    ))
 }
 
 #[cfg(test)]
