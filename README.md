@@ -1,6 +1,6 @@
 # Code generator
 
-It just generates codes randomly or based on user input (prefix or seed).
+It just generates 18 digit codes randomly or based on user input (prefix or seed).
 
 ## Examples
 
