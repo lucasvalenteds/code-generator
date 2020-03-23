@@ -8,26 +8,26 @@ It just generates codes randomly or based on user input (prefix or seed).
 
 ```
 $ ./code-generator
-$ 1285722b5138179844
+$ 8255672eb972161879
 
 $ ./code-generator
-$ 74eb32328b2fe37b149
+$ 71b7f0d843ac077f7f
 
 $ ./code-generator
-$ 08df7b5cf5d1dffe119
+$ 5504b3cdd6f827fb75
 ```
 
 **Random code with prefix**
 
 ```
 $ ./code-generator 03
-$ 03cf7adccfa1bdc350
+$ 03081be8e62c9c16b0
  
 $ ./code-generator 03
-$ 0330fda886e9f6221311
+$ 030dfa90085129576f
  
 $ ./code-generator 03
-$ 036bfeb0dfffeb9b118
+$ 0310abb453c2ca9a09
 ```
 
 **Last two digits for known code**
