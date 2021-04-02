@@ -6,24 +6,16 @@ use std::env;
 fn main() {
     let args: Vec<String> = env::args().collect::<Vec<String>>();
 
-    if args.len() == 2 {
-        let argument: String = args[1].to_owned();
+    let (code_type, seed) = match args.len() {
+        2 => match args[1].len() {
+            2 => (Some(args[1].to_owned()), None),
+            _ => (None, Some(args[1].to_owned())),
+        },
+        _ => (None, None),
+    };
 
-        if argument.len() == 2 {
-            match generate_code(Some(&argument), None) {
-                Some(code) => println!("{}", code),
-                None => panic!("Could not generate code"),
-            }
-        } else {
-            match generate_code(None, Some(&argument)) {
-                Some(code) => println!("{}", code),
-                None => panic!("Could not generate code"),
-            }
-        }
-    } else {
-        match generate_code(None, None) {
-            Some(code) => println!("{}", code),
-            None => panic!("Could not generate code"),
-        }
+    match generate_code(code_type, seed) {
+        Some(code) => println!("{}", code),
+        None => println!("Could not generate code"),
     }
 }

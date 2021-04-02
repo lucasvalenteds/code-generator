@@ -17,7 +17,7 @@ impl Distribution<char> for Decimal {
     }
 }
 
-fn get_code_type_value(code_type: Option<&str>) -> String {
+fn get_code_type_value(code_type: Option<String>) -> String {
     match code_type {
         Some(digits) => digits.to_string(),
         None => thread_rng()
@@ -34,7 +34,7 @@ fn get_random_code() -> String {
         .collect::<String>()
 }
 
-pub fn generate_code(code_type: Option<&str>, seed: Option<&str>) -> Option<String> {
+pub fn generate_code(code_type: Option<String>, seed: Option<String>) -> Option<String> {
     let code: String = match seed {
         Some(it) => String::from(it),
         None => format!("{}{}", get_code_type_value(code_type), get_random_code()),
@@ -78,30 +78,36 @@ mod tests {
 
     #[test]
     fn test_seed_valid() {
+        let code_type = Some("00".to_string());
+        let seed = Some("00124b00188a7f68".to_string());
+
         assert_eq!(
-            generate_code(Some("00"), Some("00124b00188a7f68")).as_deref(),
+            generate_code(code_type, seed).as_deref(),
             Some("00124b00188a7f6810").as_deref()
         );
     }
 
     #[test]
     fn test_seed_too_short() {
-        assert_eq!(
-            generate_code(None, Some("00124b00188a7f6")).as_deref(),
-            None
-        );
+        let code_type = None;
+        let seed = Some("00124b00188a7f6".to_string());
+
+        assert_eq!(generate_code(code_type, seed).as_deref(), None);
     }
 
     #[test]
     fn test_seed_too_long() {
-        assert_eq!(
-            generate_code(None, Some("00124b00188a7f689")).as_deref(),
-            None
-        );
+        let code_type = None;
+        let seed = Some("00124b00188a7f689".to_string());
+
+        assert_eq!(generate_code(code_type, seed).as_deref(), None);
     }
 
     #[test]
     fn test_no_seed() {
-        assert_ne!(generate_code(None, None).as_deref(), None);
+        let code_type = None;
+        let seed = None;
+
+        assert_ne!(generate_code(code_type, seed).as_deref(), None);
     }
 }
