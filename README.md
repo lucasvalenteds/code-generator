@@ -53,5 +53,5 @@ $ 00124b00188a7f6810
 | Run for development | `cargo run` |
 | Generate the binary | `cargo build --release` |
 
-[rust]: https://img.shields.io/badge/rustc-1.43-458AC9.svg?style=for-the-badge "Rust 1.43"
-[cargo]: https://img.shields.io/badge/cargo-1.43-E8B24F.svg?style=for-the-badge "Cargo 1.43"
+[rust]: https://img.shields.io/badge/rustc-1.51-458AC9.svg?style=for-the-badge "Rust 1.51"
+[cargo]: https://img.shields.io/badge/cargo-1.51-E8B24F.svg?style=for-the-badge "Cargo 1.51"
