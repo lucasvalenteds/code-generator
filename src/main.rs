@@ -2,6 +2,7 @@ mod generator;
 
 use generator::*;
 use std::env;
+use std::process::exit;
 
 fn main() {
     let args: Vec<String> = env::args().collect::<Vec<String>>();
@@ -14,8 +15,11 @@ fn main() {
         _ => (None, None),
     };
 
-    match generate_code(code_type, seed) {
-        Some(code) => println!("{}", code),
-        None => println!("Could not generate code"),
+    if let Some(code) = generate_code(code_type, seed) {
+        println!("{}", code);
+        exit(0);
+    } else {
+        println!("Could not generate the code");
+        exit(1);
     }
 }
