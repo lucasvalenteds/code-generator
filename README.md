@@ -52,6 +52,7 @@ $ 00124b00188a7f6810
 | Run tests | `cargo test`
 | Run for development | `cargo run` |
 | Generate the binary | `cargo build --release` |
+| Format source code | `cargo fmt` |
 
 [rust]: https://img.shields.io/badge/rustc-1.51-458AC9.svg?style=for-the-badge "Rust 1.51"
 [cargo]: https://img.shields.io/badge/cargo-1.51-E8B24F.svg?style=for-the-badge "Cargo 1.51"
